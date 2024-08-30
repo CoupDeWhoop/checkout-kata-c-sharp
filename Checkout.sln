@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout", "CheckoutKata\Checkout.csproj", "{E3A384F1-5C7E-4545-97E4-C6C304A86B6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.Tests", "CheckoutKata.Tests\Checkout.Tests.csproj", "{40DA818E-263C-4184-95D8-E9A189BE1A69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3A384F1-5C7E-4545-97E4-C6C304A86B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3A384F1-5C7E-4545-97E4-C6C304A86B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3A384F1-5C7E-4545-97E4-C6C304A86B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3A384F1-5C7E-4545-97E4-C6C304A86B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40DA818E-263C-4184-95D8-E9A189BE1A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40DA818E-263C-4184-95D8-E9A189BE1A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40DA818E-263C-4184-95D8-E9A189BE1A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40DA818E-263C-4184-95D8-E9A189BE1A69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
