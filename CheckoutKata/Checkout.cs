@@ -6,8 +6,7 @@ public class Checkout : ICheckout
     
     public void Scan(string item)
     {
-        var split = item.ToCharArray();
-        foreach(var sku in split)
+        foreach(char sku in item)
         {
             _basket.Add(sku);
         }
