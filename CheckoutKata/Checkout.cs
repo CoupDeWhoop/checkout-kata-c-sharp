@@ -4,9 +4,9 @@ public class Checkout : ICheckout
 {
     private List<char> _basket = new List<char>();
     
-    public void Scan(string item)
+    public void Scan(string items)
     {
-        foreach(char sku in item)
+        foreach(char sku in items)
         {
             _basket.Add(sku);
         }

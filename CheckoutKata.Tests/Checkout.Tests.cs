@@ -41,14 +41,27 @@ public class CheckoutTests
     [TestCase("CACAC", 160)]
     [TestCase("ABCD", 115)]
 
-    public void GetTotalPrice_ShouldReturnCorrectly_ForMultiples(string item, int expected)
+    public void GetTotalPrice_ShouldReturnCorrectly_ForMultiples(string items, int expected)
     {
 
-        _checkout.Scan(item);
+        _checkout.Scan(items);
 
         int totalPrice = _checkout.GetTotalPrice();
 
         // Assert
         Assert.AreEqual(expected, totalPrice);
+    }
+
+    [TestCase("A£CD", 115)]
+    public void GetTotalPrice_ShouldThrowException_ForUnknownSku(string items, int expected)
+    {
+
+        _checkout.Scan(items);
+
+        var expectedMessage = "Invalid SKU: £";
+
+        // Assert
+        var actual = Assert.Throws<ArgumentException>(() => _checkout.GetTotalPrice());
+        Assert.AreEqual(expectedMessage, actual.Message );
     }
 }
