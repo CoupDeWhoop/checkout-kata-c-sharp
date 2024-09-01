@@ -12,6 +12,7 @@ public class Checkout : ICheckout
         }
         
     }
+
     public int GetTotalPrice()
     {
         int totalPrice = 0;
@@ -20,7 +21,7 @@ public class Checkout : ICheckout
             totalPrice += GetPriceForSku(sku);
         }
 
-        return totalPrice;
+        return totalPrice - CalculateDiscount();
     }
 
     private int GetPriceForSku(char sku)
@@ -39,4 +40,16 @@ public class Checkout : ICheckout
                 throw new ArgumentException($"Invalid SKU: {sku}");
         }
     }
+
+    private int CalculateDiscount()
+    {
+        var a_count = _basket.Where(sku => sku == 'A').Count();
+        var a_discount = a_count / 3 * 20;
+        var b_count = _basket.Where(sku => sku == 'B').Count();
+        var b_discount = b_count / 2 * 15;
+
+        return a_discount + b_discount;
+    }
+
+
 }

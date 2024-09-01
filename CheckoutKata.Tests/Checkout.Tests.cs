@@ -64,4 +64,18 @@ public class CheckoutTests
         var actual = Assert.Throws<ArgumentException>(() => _checkout.GetTotalPrice());
         Assert.AreEqual(expectedMessage, actual.Message );
     }
+
+[TestCase("AAA", 130)]
+[TestCase("AAAB", 160)]
+[TestCase("BB", 45)]
+[TestCase("AAABB", 175)]
+[TestCase("BBD", 60)]
+public void GetTotalPrice_ShouldApplyDiscountsCorrectly(string items, int expected)
+{
+    _checkout.Scan(items);
+
+    var totalPrice = _checkout.GetTotalPrice();
+
+    Assert.AreEqual(expected, totalPrice);
+}
 }
