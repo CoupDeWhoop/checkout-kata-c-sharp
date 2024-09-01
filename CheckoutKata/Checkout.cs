@@ -3,6 +3,12 @@
 public class Checkout : ICheckout
 {
     private List<char> _basket = new List<char>();
+    private DiscountList _discountList;
+
+    public Checkout(DiscountList discountList)
+    {
+        _discountList = discountList;
+    }
     
     public void Scan(string items)
     {
@@ -21,7 +27,7 @@ public class Checkout : ICheckout
             totalPrice += GetPriceForSku(sku);
         }
 
-        return totalPrice - CalculateDiscount();
+        return totalPrice - _discountList.CalculateDiscount(_basket);
     }
 
     private int GetPriceForSku(char sku)
@@ -41,15 +47,48 @@ public class Checkout : ICheckout
         }
     }
 
-    private int CalculateDiscount()
-    {
-        var a_count = _basket.Where(sku => sku == 'A').Count();
-        var a_discount = a_count / 3 * 20;
-        var b_count = _basket.Where(sku => sku == 'B').Count();
-        var b_discount = b_count / 2 * 15;
+}
 
-        return a_discount + b_discount;
+public class Discount
+{
+    private char _sku;
+    private int _quantityNeeded;
+    private int _discount;
+
+    public Discount(char sku, int quantityNeeded, int discount)
+    {
+        _sku = sku;
+        _quantityNeeded = quantityNeeded;
+        _discount = discount;
     }
 
+    public int CalculateDiscount(List<char> itemsList)
+    {
+        var itemCount = itemsList.Where(sku => sku == _sku).Count();
+        var itemDiscount = itemCount / _quantityNeeded * _discount;
 
+        return itemDiscount;
+    }
+}
+
+public class DiscountList : IDiscountList
+{
+    private readonly List<Discount> _discounts;
+
+    public DiscountList(List<Discount> discounts)
+    {
+        _discounts = discounts;
+    }
+
+    public int CalculateDiscount(List<char> items)
+    {
+        int totalDiscount = 0;
+
+        foreach (var discount in _discounts)
+        {
+            totalDiscount += discount.CalculateDiscount(items);
+        }
+
+        return totalDiscount;
+    }
 }
