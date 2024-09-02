@@ -3,9 +3,9 @@
 public class Checkout : ICheckout
 {
     private List<char> _basket = new List<char>();
-    private DiscountList _discountList;
+    private List<Discount> _discountList;
 
-    public Checkout(DiscountList discountList)
+    public Checkout(List<Discount> discountList)
     {
         _discountList = discountList;
     }
@@ -27,7 +27,7 @@ public class Checkout : ICheckout
             totalPrice += GetPriceForSku(sku);
         }
 
-        return totalPrice - _discountList.CalculateDiscount(_basket);
+        return totalPrice - GetTotalDiscount();
     }
 
     private int GetPriceForSku(char sku)
@@ -45,6 +45,18 @@ public class Checkout : ICheckout
             default:
                 throw new ArgumentException($"Invalid SKU: {sku}");
         }
+    }
+
+    public int GetTotalDiscount()
+    {
+        int totalDiscount = 0;
+
+        foreach (var discount in _discountList)
+        {
+            totalDiscount += discount.CalculateDiscount(_basket);
+        }
+
+        return totalDiscount;
     }
 
 }
@@ -68,27 +80,5 @@ public class Discount
         var itemDiscount = itemCount / _quantityNeeded * _discount;
 
         return itemDiscount;
-    }
-}
-
-public class DiscountList : IDiscountList
-{
-    private readonly List<Discount> _discounts;
-
-    public DiscountList(List<Discount> discounts)
-    {
-        _discounts = discounts;
-    }
-
-    public int CalculateDiscount(List<char> items)
-    {
-        int totalDiscount = 0;
-
-        foreach (var discount in _discounts)
-        {
-            totalDiscount += discount.CalculateDiscount(items);
-        }
-
-        return totalDiscount;
     }
 }

@@ -9,13 +9,12 @@ public class CheckoutTests
     [SetUp]
     public void SetUp()
     {
-        var discounts = new List<Discount>
+        var discountList = new List<Discount>
         {
             new Discount('A', 3, 20),
             new Discount('B', 2, 15)
         };
 
-        var discountList = new DiscountList(discounts);
         _checkout = new Checkout(discountList);
     }
 
