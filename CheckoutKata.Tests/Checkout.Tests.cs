@@ -5,17 +5,23 @@ namespace CheckoutKata.Tests;
 public class CheckoutTests
 {
     private ICheckout _checkout;
-    
+
     [SetUp]
     public void SetUp()
     {
+        var catalogue = new ProductList();
+        catalogue
+            .AddProduct('A', 50)
+            .AddProduct('B', 30)
+            .AddProduct('C', 20)
+            .AddProduct('D', 15);
         var discountList = new List<Discount>
         {
             new Discount('A', 3, 20),
             new Discount('B', 2, 15)
         };
 
-        _checkout = new Checkout(discountList);
+        _checkout = new Checkout(catalogue, discountList);
     }
 
     [Test]
@@ -23,7 +29,7 @@ public class CheckoutTests
     {
         int totalPrice = _checkout.GetTotalPrice();
 
-        Assert.AreEqual(0, totalPrice);
+        Assert.That(totalPrice, Is.EqualTo(0));
     }
 
     [TestCase("A", 50)]
@@ -38,7 +44,7 @@ public class CheckoutTests
         int totalPrice = _checkout.GetTotalPrice();
 
         // Assert
-        Assert.AreEqual(expected, totalPrice);
+        Assert.That(totalPrice, Is.EqualTo(expected));
     }
 
     [TestCase("AA", 100)]
@@ -55,7 +61,7 @@ public class CheckoutTests
         int totalPrice = _checkout.GetTotalPrice();
 
         // Assert
-        Assert.AreEqual(expected, totalPrice);
+        Assert.That(totalPrice, Is.EqualTo(expected));
     }
 
     [TestCase("A£CD", 115)]
@@ -68,20 +74,20 @@ public class CheckoutTests
 
         // Assert
         var actual = Assert.Throws<ArgumentException>(() => _checkout.GetTotalPrice());
-        Assert.AreEqual(expectedMessage, actual.Message );
+        Assert.That(actual.Message, Is.EqualTo(expectedMessage));
     }
 
-[TestCase("AAA", 130)]
-[TestCase("AAAB", 160)]
-[TestCase("BB", 45)]
-[TestCase("AAABB", 175)]
-[TestCase("BBD", 60)]
-public void GetTotalPrice_ShouldApplyDiscountsCorrectly(string items, int expected)
-{
-    _checkout.Scan(items);
+    [TestCase("AAA", 130)]
+    [TestCase("AAAB", 160)]
+    [TestCase("BB", 45)]
+    [TestCase("AAABB", 175)]
+    [TestCase("BBD", 60)]
+    public void GetTotalPrice_ShouldApplyDiscountsCorrectly(string items, int expected)
+    {
+        _checkout.Scan(items);
 
-    var totalPrice = _checkout.GetTotalPrice();
+        var totalPrice = _checkout.GetTotalPrice();
 
-    Assert.AreEqual(expected, totalPrice);
-}
+        Assert.That(totalPrice, Is.EqualTo(expected));
+    }
 }
