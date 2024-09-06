@@ -5,12 +5,14 @@ public class Checkout : ICheckout
     private ProductList _catalogue;
     private List<Discount> _discountList;
     private List<char> _basket = new List<char>();
+    private int _bagPrice; 
 
 
-    public Checkout(ProductList catalogue, List<Discount> discountList)
+    public Checkout(ProductList catalogue, List<Discount> discountList, int bagPrice = 0)
     {
         _discountList = discountList;
         _catalogue = catalogue;
+        _bagPrice = bagPrice;
     }
 
     public void Scan(string items)
@@ -47,8 +49,14 @@ public class Checkout : ICheckout
             totalDiscount += discount.CalculateDiscount(_basket);
         }
 
-        return totalDiscount;
+        return totalDiscount - GetBaggingPrice();
     }
+
+    public int GetBaggingPrice()
+    {
+        return (_basket.Count + 4 ) / 5 * _bagPrice;
+    }
+
 
 }
 

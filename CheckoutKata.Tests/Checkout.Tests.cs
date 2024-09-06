@@ -1,4 +1,3 @@
-using CheckoutKata;
 namespace CheckoutKata.Tests;
 
 
@@ -90,4 +89,51 @@ public class CheckoutTests
 
         Assert.That(totalPrice, Is.EqualTo(expected));
     }
+}
+
+public class CheckoutWithBagTests
+{
+    private ICheckout _checkout;
+
+    [SetUp]
+    public void SetUp()
+    {
+        var catalogue = new ProductList();
+        catalogue
+            .AddProduct('A', 50)
+            .AddProduct('B', 30)
+            .AddProduct('C', 20)
+            .AddProduct('D', 15);
+        var discountList = new List<Discount>
+        {
+            new Discount('A', 3, 20),
+            new Discount('B', 2, 15)
+        };
+        var bagPrice = 5;
+        _checkout = new Checkout(catalogue, discountList, bagPrice);
+    }
+
+    [Test]
+    public void GetTotalPrice_ShouldApplyBaggingFeeCorrectly_WhenNoItems()
+    {
+        var totalPrice = _checkout.GetTotalPrice();
+
+        Assert.That(totalPrice, Is.EqualTo(0));
+    }
+
+    [TestCase("AAA", 135)]
+    [TestCase("AAAB", 165)]
+    [TestCase("BB", 50)]
+    [TestCase("AAABB", 180)]
+    [TestCase("BBBBBB", 145)]
+    public void GetTotalPrice_ShouldApplyBaggingFeeCorrectly(string items, int expected)
+    {
+        _checkout.Scan(items);
+        var totalPrice = _checkout.GetTotalPrice();
+
+        Assert.That(totalPrice, Is.EqualTo(expected));
+    }
+
+
+
 }
