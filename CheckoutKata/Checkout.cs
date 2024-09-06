@@ -5,14 +5,14 @@ public class Checkout : ICheckout
     private ProductList _catalogue;
     private List<Discount> _discountList;
     private List<char> _basket = new List<char>();
-    private int _bagPrice; 
+    private IBaggingService _baggingService;
 
 
-    public Checkout(ProductList catalogue, List<Discount> discountList, int bagPrice = 0)
+    public Checkout(ProductList catalogue, List<Discount> discountList, IBaggingService? baggingService = null)
     {
         _discountList = discountList;
         _catalogue = catalogue;
-        _bagPrice = bagPrice;
+        _baggingService = baggingService ?? new BaggingService(0,0);
     }
 
     public void Scan(string items)
@@ -31,8 +31,9 @@ public class Checkout : ICheckout
         {
             totalPrice += GetPriceForSku(sku);
         }
-
-        return totalPrice - GetTotalDiscount();
+        var baggingPrice = _baggingService.GetBaggingPrice(_basket);
+        var totalDiscount = GetTotalDiscount();
+        return totalPrice - totalDiscount + baggingPrice;
     }
 
     private int GetPriceForSku(char sku)
@@ -49,70 +50,6 @@ public class Checkout : ICheckout
             totalDiscount += discount.CalculateDiscount(_basket);
         }
 
-        return totalDiscount - GetBaggingPrice();
-    }
-
-    public int GetBaggingPrice()
-    {
-        return (_basket.Count + 4 ) / 5 * _bagPrice;
-    }
-
-
-}
-
-
-public class Product
-{
-    public char Sku { get; }
-    public int Price { get; }
-
-    public Product(char sku, int price)
-    {
-        Price = price;
-        Sku = sku;
-    }
-}
-
-public class ProductList
-{
-    public List<Product> catalogue = new List<Product>();
-
-    public ProductList AddProduct(char sku, int price)
-    {
-        Product product = new Product(sku, price);
-        catalogue.Add(product);
-        return this;
-    }
-
-    public int GetProductPrice(char sku)
-    {
-        var product = catalogue.Where(product => product.Sku == sku).FirstOrDefault();
-        if (product == null)
-        {
-            throw new ArgumentException($"Invalid SKU: {sku}");
-        }
-        return product.Price;
-    }
-}
-
-public class Discount
-{
-    private char _sku;
-    private int _quantityNeeded;
-    private int _discount;
-
-    public Discount(char sku, int quantityNeeded, int discount)
-    {
-        _sku = sku;
-        _quantityNeeded = quantityNeeded;
-        _discount = discount;
-    }
-
-    public int CalculateDiscount(List<char> itemsList)
-    {
-        var itemCount = itemsList.Where(sku => sku == _sku).Count();
-        var itemDiscount = itemCount / _quantityNeeded * _discount;
-
-        return itemDiscount;
+        return totalDiscount;
     }
 }

@@ -81,6 +81,7 @@ public class CheckoutTests
     [TestCase("BB", 45)]
     [TestCase("AAABB", 175)]
     [TestCase("BBD", 60)]
+    [TestCase("AAABBABABAB", 380)]
     public void GetTotalPrice_ShouldApplyDiscountsCorrectly(string items, int expected)
     {
         _checkout.Scan(items);
@@ -109,8 +110,8 @@ public class CheckoutWithBagTests
             new Discount('A', 3, 20),
             new Discount('B', 2, 15)
         };
-        var bagPrice = 5;
-        _checkout = new Checkout(catalogue, discountList, bagPrice);
+        var baggingService = new BaggingService(5,5);
+        _checkout = new Checkout(catalogue, discountList, baggingService);
     }
 
     [Test]
@@ -126,6 +127,7 @@ public class CheckoutWithBagTests
     [TestCase("BB", 50)]
     [TestCase("AAABB", 180)]
     [TestCase("BBBBBB", 145)]
+        [TestCase("AAABBABABAB", 395)]
     public void GetTotalPrice_ShouldApplyBaggingFeeCorrectly(string items, int expected)
     {
         _checkout.Scan(items);
@@ -133,7 +135,4 @@ public class CheckoutWithBagTests
 
         Assert.That(totalPrice, Is.EqualTo(expected));
     }
-
-
-
 }
