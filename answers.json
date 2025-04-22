@@ -1,0 +1,138 @@
+{
+    "trafficLightQuestions": [
+        {
+            "rank": 1,
+            "label": "How would you rate your overall performance?",
+            "isRequired": true,
+            "visibility": "both",
+            "trafficLightOptions": [
+                {
+                    "rank": 1,
+                    "label": "Poor",
+                    "colour": "red"
+                },
+                {
+                    "rank": 2,
+                    "label": "Average",
+                    "colour": "yellow"
+                },
+                {
+                    "rank": 3,
+                    "label": "Excellent",
+                    "colour": "green"
+                }
+            ],
+            "answer": 1
+        }
+    ],
+    "openTextQuestions": [
+        {
+            "rank": 2,
+            "isRequired": false,
+            "label": "What are your key achievements this quarter?",
+            "visibility": "employee",
+            "answer": "Completed the project ahead of schedule."
+        }
+    ],
+    "multipleChoiceQuestions": [
+        {
+            "rank": 3,
+            "isRequired": true,
+            "label": "Which areas do you need improvement?",
+            "visibility": "manager",
+            "multipleChoiceOptions": [
+                {
+                    "rank": 1,
+                    "label": "Communication"
+                },
+                {
+                    "rank": 2,
+                    "label": "Technical Skills"
+                },
+                {
+                    "rank": 3,
+                    "label": "Time Management"
+                }
+            ],
+            "answer": 3
+        }
+    ],
+    "ratingScaleQuestions": [
+        {
+            "rank": 4,
+            "label": "Rate your satisfaction with the following aspects:",
+            "isRequired": true,
+            "visibility": "both",
+            "columns": [
+                {
+                    "rank": 1,
+                    "label": "Very Dissatisfied"
+                },
+                {
+                    "rank": 2,
+                    "label": "Dissatisfied"
+                },
+                {
+                    "rank": 3,
+                    "label": "Neutral"
+                },
+                {
+                    "rank": 4,
+                    "label": "Satisfied"
+                },
+                {
+                    "rank": 5,
+                    "label": "Very Satisfied"
+                }
+            ],
+            "rows": [
+                {
+                    "rank": 1,
+                    "label": "Work Environment"
+                },
+                {
+                    "rank": 2,
+                    "label": "Work-Life Balance"
+                },
+                {
+                    "rank": 3,
+                    "label": "Career Growth"
+                }
+            ],
+            "answer": [
+                {
+                    "columnRank": 4,
+                    "rowRank": 1
+                },
+                {
+                    "columnRank": 3,
+                    "rowRank": 2
+                },
+                {
+                    "columnRank": 5,
+                    "rowRank": 3
+                }
+            ]
+        }
+    ],
+    "binaryQuestions": [
+        {
+            "rank": 5,
+            "isRequired": true,
+            "label": "Do you feel valued at work?",
+            "visibility": "both",
+            "binaryOptions": [
+                {
+                    "label": "Yes",
+                    "rank": 1
+                },
+                {
+                    "label": "No",
+                    "rank": 2
+                }
+            ],
+            "answer": 2
+        }
+    ]
+}
+
